@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SADVO.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using SADVO.Infrastructure.Persistence.Context;
 namespace SADVO.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250610001257_terceraMigracion")]
+    partial class terceraMigracion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,12 +166,18 @@ namespace SADVO.Infrastructure.Persistence.Migrations
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsuarioId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PartidoPoliticoId");
 
-                    b.HasIndex("UsuarioId")
-                        .IsUnique();
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("UsuarioId1")
+                        .IsUnique()
+                        .HasFilter("[UsuarioId1] IS NOT NULL");
 
                     b.ToTable("DirigentePartido", (string)null);
                 });
@@ -276,35 +285,33 @@ namespace SADVO.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Apellido")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContrasenaHash")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("EstaActivo")
-                        .HasMaxLength(200)
                         .HasColumnType("bit");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rol")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario", (string)null);
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("SADVO.Core.Domain.Entities.Voto", b =>
@@ -396,10 +403,14 @@ namespace SADVO.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("SADVO.Core.Domain.Entities.Usuario", "Usuario")
-                        .WithOne("DirigentePartido")
-                        .HasForeignKey("SADVO.Core.Domain.Entities.DirigentePartido", "UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("SADVO.Core.Domain.Entities.Usuario", null)
+                        .WithOne("DirigentePartido")
+                        .HasForeignKey("SADVO.Core.Domain.Entities.DirigentePartido", "UsuarioId1");
 
                     b.Navigation("PartidoPolitico");
 

@@ -46,9 +46,11 @@ namespace SADVO.Infrastructure.Persistence.EntityConfiguration
             // Relación uno a uno con DirigentePartido
 
             builder.HasOne(u => u.DirigentePartido)
-                .WithOne(dp => dp.Usuario)
-                .HasForeignKey<DirigentePartido>(dp => dp.UsuarioId)
-                .OnDelete(DeleteBehavior.Cascade);
+            .WithOne(dp => dp.Usuario)
+            .HasForeignKey<DirigentePartido>(dp => dp.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
         }
     }
 }

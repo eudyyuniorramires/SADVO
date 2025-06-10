@@ -12,12 +12,11 @@ namespace SADVO.Core.Domain.Entities
         public required string Nombre { get; set; }
         public required string Apellido { get; set; }
         public  required string Email { get; set; }
-        public  required string NombreUsuario { get; set; }
         public  required string ContrasenaHash { get; set; }
         public bool EstaActivo { get; set; }
 
         public RolUsuario Rol { get; set; } // Enum: Administrador, Dirigente
 
-        public DirigentePartido? DirigentePartido { get; set; } // Relación 1-1
+        public DirigentePartido ?DirigentePartido { get; set; }
     }
 }

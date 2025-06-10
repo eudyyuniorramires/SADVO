@@ -8,7 +8,7 @@ namespace SADVO.Core.Domain.Entities
 {
     public class DirigentePartido
     {
-        public required int Id { get; set; }
+        public  int Id { get; set; }
 
         public required int UsuarioId { get; set; }
         public required Usuario Usuario { get; set; }

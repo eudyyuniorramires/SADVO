@@ -40,6 +40,7 @@ namespace SADVO.Infrastructure.Persistence.Context
             modelBuilder.ApplyConfiguration(new EleccionEntityConfiguration());
             modelBuilder.ApplyConfiguration(new PuestoElectivoEntityConfiguration());
             modelBuilder.ApplyConfiguration(new PartidoPoliticoEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UsuarioEntityConfiguration());
 
         }
 
