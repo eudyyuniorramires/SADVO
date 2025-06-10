@@ -15,6 +15,6 @@ namespace SADVO.Core.Domain.Entities
         public required string DocumentoIdentidad { get; set; }
         public bool EstaActivo { get; set; }
 
-        public ICollection<Voto> Votos { get; set; }
+        public  required ICollection<Voto> Votos { get; set; }
     }
 }

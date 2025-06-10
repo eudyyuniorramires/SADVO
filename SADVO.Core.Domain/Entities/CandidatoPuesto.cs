@@ -14,5 +14,7 @@ namespace SADVO.Core.Domain.Entities
         public required Candidato Candidato { get; set; }
         public required int PuestoElectivoId { get; set; }
         public required PuestoElectivo PuestoElectivo { get; set; }
+        public ICollection<Voto>? Votos { get; set; }
+
     }
 }
