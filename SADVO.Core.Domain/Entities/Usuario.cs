@@ -15,7 +15,7 @@ namespace SADVO.Core.Domain.Entities
         public  required string ContrasenaHash { get; set; }
         public bool EstaActivo { get; set; }
 
-        public RolUsuario Rol { get; set; } // Enum: Administrador, Dirigente
+        public RolUsuario Rol { get; set; } 
 
         public DirigentePartido ?DirigentePartido { get; set; }
     }
