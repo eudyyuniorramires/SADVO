@@ -4,13 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SADVO.Core.Application.Dtos.PuestoElectivo
+namespace SADVO.Core.Application.ViewModels.PuestoElectivoViewMode
 {
-    public class PuestoElectivoDto
+    public class PuestoElectivoSaveViewModel
     {
-        public required int Id { get; set; }
+
+
+        public int Id { get; set; } 
         public required string Nombre { get; set; }
+
+
         public required string Descripcion { get; set; }
-        public required bool EstaActivo { get; set; }
+
+
+        public bool EstadoActivo { get; set; }  
+
+
+
+
     }
 }

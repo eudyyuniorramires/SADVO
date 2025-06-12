@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using SADVO.Core.Application;
+using SADVO.Infrastructure.Persistence;
 using SADVO.Infrastructure.Persistence.Context;
 
 namespace SADVO
@@ -11,9 +13,8 @@ namespace SADVO
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddPersistenceLayerIOC(builder.Configuration);
+            builder.Services.AddAplicationLayerIOC();
 
             var app = builder.Build();
 

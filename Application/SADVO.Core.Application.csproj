@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SADVO.Core.Domain\SADVO.Core.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
