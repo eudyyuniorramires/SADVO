@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Application.Interfaces
 {
-    public interface ICiudadano
+    public interface ICiudadanoService
     {
         Task<bool> AddAsync(CiudadanoDto dto);
         Task<bool> UpdateAsync(CiudadanoDto dto);

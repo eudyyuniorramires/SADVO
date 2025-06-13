@@ -21,6 +21,7 @@ namespace SADVO.Core.Application
      
             #region Services IOC
             service.AddTransient<IPuestoElectivo, PuestoElectivoService>();
+            service.AddTransient<ICiudadanoService, CiudadanoService>();
             #endregion
 
         }

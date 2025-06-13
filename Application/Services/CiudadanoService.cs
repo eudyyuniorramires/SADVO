@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using SADVO.Core.Application.Dtos.Ciudadano;
+using SADVO.Core.Application.Interfaces;
 using SADVO.Core.Domain.Entities;
 using SADVO.Core.Domain.Interfaces;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Application.Services
 {
-    public class CiudadanoService
+    public class CiudadanoService : ICiudadanoService
     {
         private readonly ICiudadanoRepository _ciudadanoRepository;
 
@@ -23,7 +24,7 @@ namespace SADVO.Core.Application.Services
 
 
         //Agregar
-        public async Task<bool> AddAsyn(CiudadanoDto dto)
+        public async Task<bool> AddAsync(CiudadanoDto dto)
         {
             try
             {
@@ -48,13 +49,15 @@ namespace SADVO.Core.Application.Services
             }
         }
 
+      
+
         //Eliminar
-        public async Task<bool> DeleteAsyn(int Id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {
 
-                await _ciudadanoRepository.DeleteAsync(Id);
+                await _ciudadanoRepository.DeleteAsync(id);
                 return true;
 
             }
@@ -66,6 +69,7 @@ namespace SADVO.Core.Application.Services
             }
         }
 
+        
 
         public async Task<List<CiudadanoDto>> GetAll()
         {
@@ -97,7 +101,10 @@ namespace SADVO.Core.Application.Services
 
         }
 
-
+        public Task<List<CiudadanoDto>> GetAllWithInclude()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<CiudadanoDto> GetById(int Id)
         {

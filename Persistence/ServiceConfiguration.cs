@@ -26,7 +26,8 @@ namespace SADVO.Infrastructure.Persistence
 
             #endregion
             #region Repositories IOC
-            service.AddTransient<IPuestoElectivoRepository, PuestoElectivoRepository>();    
+            service.AddTransient<IPuestoElectivoRepository, PuestoElectivoRepository>();   
+            service.AddTransient<ICiudadanoRepository, CiudadanoRepository>();
             #endregion
 
         }
