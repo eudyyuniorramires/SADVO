@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SADVO.Core.Domain.Interfaces;
 using SADVO.Infrastructure.Persistence.Context;
+using System.Linq.Expressions;
 
 namespace SADVO.Infrastructure.Persistence.Repositories
 {
@@ -81,6 +82,11 @@ namespace SADVO.Infrastructure.Persistence.Repositories
             }
 
             return query; 
+        }
+
+        public virtual async Task<Entity?> GetByConditionalAsync(Expression<Func<Entity, bool>> predicate)
+        {
+            return await _context.Set<Entity>().FirstOrDefaultAsync(predicate);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace SADVO.Core.Domain.Interfaces
         Task<Entity?> UpdateAsync(int id, Entity entity);
         Task<List<Entity>> GetAllListWithInclude(List<string> properties);
         IQueryable<Entity> GetAllQueryWithInclude(List<string> properties);
+
+        Task<Entity?> GetByConditionalAsync(Expression<Func<Entity,bool>>predicate);
 
 
     }

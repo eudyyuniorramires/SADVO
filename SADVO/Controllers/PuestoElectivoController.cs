@@ -84,7 +84,7 @@ namespace SADVO.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                return View();
+                return View(vm);
             }
 
             await _puestoElectivoService.DeleteAsync(vm.Id);

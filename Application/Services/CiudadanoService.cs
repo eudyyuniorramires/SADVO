@@ -28,28 +28,37 @@ namespace SADVO.Core.Application.Services
         {
             try
             {
-
-                Ciudadano entity = new() { Id = 0, Nombre = dto.Nombre, Apellido = dto.Apellido, Email = dto.Email, DocumentoIdentidad = dto.DocumentoIdentidad, EstaActivo = dto.EstaActivo };
-
-                Ciudadano? returnEntity = await _ciudadanoRepository.AddAsync(entity);
-                if (returnEntity == null)
-
+                // Validar si ya existe un ciudadano con el mismo DocumentoIdentidad
+                var existingEntity = await _ciudadanoRepository.GetByConditionalAsync(c => c.DocumentoIdentidad == dto.DocumentoIdentidad);
+                if (existingEntity != null)
                 {
                     return false;
                 }
 
-                return true;
+                // Mapeo del DTO a la entidad
+                Ciudadano entity = new()
+                {
+                    Id = 0,
+                    Nombre = dto.Nombre,
+                    Apellido = dto.Apellido,
+                    Email = dto.Email,
+                    DocumentoIdentidad = dto.DocumentoIdentidad,
+                    EstaActivo = dto.EstaActivo
+                };
 
+                // Llamada al repositorio para agregar la entidad
+                var returnEntity = await _ciudadanoRepository.AddAsync(entity);
 
+                // Verifica si la entidad fue agregada correctamente
+                return returnEntity != null;
             }
             catch (Exception ex)
             {
-
-                throw new Exception("Hubo un error en agregar un Ciudadano revisele mijo " + ex);
+                // Lanza una excepción personalizada con más contexto
+                throw new Exception($"Error al agregar un ciudadano: {ex.Message}", ex);
             }
         }
 
-      
 
         //Eliminar
         public async Task<bool> DeleteAsync(int id)
@@ -135,6 +144,11 @@ namespace SADVO.Core.Application.Services
         {
             try
             {
+                var existingEntity = await _ciudadanoRepository.GetByConditionalAsync(c => c.DocumentoIdentidad == dto.DocumentoIdentidad);
+                if (existingEntity != null)
+                {
+                    return false;
+                }
 
                 Ciudadano entity = new() { Id = dto.Id, Nombre = dto.Nombre, Apellido = dto.Apellido, Email = dto.Email, DocumentoIdentidad = dto.DocumentoIdentidad, EstaActivo = dto.EstaActivo };
 
