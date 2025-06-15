@@ -37,7 +37,7 @@ namespace SADVO.Core.Application.ViewModels.UsuarioViewModel
 
         public bool EstaActivo { get; set; }
 
-        
+        [Required(ErrorMessage ="Ingrese un Rol")]
         public required string Rol { get; set; } // Enum: Administrador, Dirigente
 
 

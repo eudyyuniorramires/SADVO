@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Domain.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<Usuario>
+    public interface IUsuarioRepository : IGenericRepository<Usuario>
     {
     }
 }

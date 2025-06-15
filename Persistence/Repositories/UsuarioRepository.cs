@@ -5,9 +5,9 @@ using SADVO.Infrastructure.Persistence.Context;
 
 namespace SADVO.Infrastructure.Persistence.Repositories
 {
-    public class UserRepository : GenericRepository<Usuario>, IUserRepository
+    public class UsuarioRepository : GenericRepository<Usuario>, IUsuarioRepository
     {
-        public UserRepository(ApplicationDbContext context) : base(context)
+        public UsuarioRepository(ApplicationDbContext context) : base(context)
         {
         }
 

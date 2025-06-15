@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Application.Interfaces
 {
-    public interface IUserService
+    public interface IUsuarioService
     {
         Task<bool> AddAsync(GuardarUsuarioDto dto);
         Task<bool> UpdateAsync(GuardarUsuarioDto dto);
