@@ -9,6 +9,7 @@ namespace SADVO.Core.Application.ViewModels.UsuarioViewModel
 {
     public class UsuarioViewModel
     {
+        public required int Id { get; set; } 
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         public required string Nombre { get; set; }
