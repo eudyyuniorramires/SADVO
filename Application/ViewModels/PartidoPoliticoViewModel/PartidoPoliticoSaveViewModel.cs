@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Application.ViewModels.PartidoPoliticoViewModel
 {
-    public class PartidoPoliticoViewModel
+    public class PartidoPoliticoSaveViewModel
     {
+
         [Required(ErrorMessage = "El Id es requerido")]
         public required int Id { get; set; }
 

@@ -80,15 +80,24 @@ namespace SADVO.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(PuestoElectivoViewModelDelete vm)
+        public async Task<IActionResult> DeleteConfirmacion(int id)
         {
-            if (!ModelState.IsValid) 
-            {
-                return View(vm);
-            }
 
-            await _puestoElectivoService.DeleteAsync(vm.Id);
-            return RedirectToRoute(new { controller = "PuestoElectivo", action = "Index"});
+            var result = await _puestoElectivoService.DeleteAsync(id);
+            if (!result)
+            {
+
+
+                TempData["Error"] = "No se pudo eliminar el Puesto Electivo.";
+
+            }
+            else 
+            {
+
+                TempData["Succes"] = "Se elimino el Puesto Electivo.";
+
+            }
+            return RedirectToAction("Index");
 
         }
 

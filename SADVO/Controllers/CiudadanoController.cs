@@ -104,16 +104,26 @@ namespace SADVO.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(CiudadanoDeleteViewModel vm)
+        public async Task<IActionResult> DeleteConfirmacion(int id)
         {
+            var result = await _ciudadanoService.DeleteAsync(id);
 
-            if (!ModelState.IsValid)
+            if (!result)
             {
-                return View();
+
+                TempData["Error"] = "El ciudadano no pudo ser elimiando";
+
+            }
+            else 
+            {
+                TempData["Succes"] = "El ciudadano no pudo ser eliminado";
             }
 
-            await _ciudadanoService.DeleteAsync(vm.Id);
-            return RedirectToRoute(new { controller = "Ciudadano", action = "Index" });
+            return RedirectToAction ("Index");
+
+
+
+
 
         }
 
@@ -144,9 +154,6 @@ namespace SADVO.Controllers
 
 
         [HttpPost]
-
-
-
         public async Task<IActionResult> Edit(CiudadanoSaveViewModel vm)
         {
 
