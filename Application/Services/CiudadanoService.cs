@@ -28,14 +28,12 @@ namespace SADVO.Core.Application.Services
         {
             try
             {
-                // Validar si ya existe un ciudadano con el mismo DocumentoIdentidad
                 var existingEntity = await _ciudadanoRepository.GetByConditionalAsync(c => c.DocumentoIdentidad == dto.DocumentoIdentidad);
                 if (existingEntity != null)
                 {
                     return false;
                 }
 
-                // Mapeo del DTO a la entidad
                 Ciudadano entity = new()
                 {
                     Id = 0,
@@ -46,21 +44,17 @@ namespace SADVO.Core.Application.Services
                     EstaActivo = dto.EstaActivo
                 };
 
-                // Llamada al repositorio para agregar la entidad
                 var returnEntity = await _ciudadanoRepository.AddAsync(entity);
 
-                // Verifica si la entidad fue agregada correctamente
                 return returnEntity != null;
             }
             catch (Exception ex)
             {
-                // Lanza una excepción personalizada con más contexto
                 throw new Exception($"Error al agregar un ciudadano: {ex.Message}", ex);
             }
         }
 
 
-        //Eliminar
         public async Task<bool> DeleteAsync(int id)
         {
             try

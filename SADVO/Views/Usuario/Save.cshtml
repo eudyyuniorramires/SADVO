@@ -6,11 +6,9 @@
     ViewData["Title"] = "Crear Usuario";
 }
 
-<!-- Section: Design Block -->
 <div class="card-header bg-success text-light"><h5 class="text-center">@(editMode ? "Edit - " + Model.Nombre : "Agregar Puesto Electivo + ")</h5></div>
 <form asp-controller="Usuario" asp-action="@(editMode ? "Edit" : "Create")" method="POST">
     <section class="">
-        <!-- Jumbotron -->
         <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
             <div class="container">
                 <div class="row gx-lg-5 align-items-center">
@@ -62,7 +60,6 @@
                                     <span asp-validation-for="RepeatContrasena" class="text-danger"></span>
                                 </div>
 
-                                <!-- Campo para Rol -->
                                 <div class="form-outline mb-4">
                                     <label class="form-label" asp-for="Rol">Rol</label>
                                     <select class="form-control" asp-for="Rol">
@@ -73,7 +70,6 @@
                                     <span asp-validation-for="Rol" class="text-danger"></span>
                                 </div>
 
-                                <!-- Checkbox de estado (opcional) -->
                                 <div class="form-check mb-4">
                                     <input class="form-check-input" type="checkbox" asp-for="EstaActivo" />
                                     <label class="form-check-label" asp-for="EstaActivo">Activo</label>
@@ -89,7 +85,5 @@
                 </div>
             </div>
         </div>
-        <!-- Jumbotron -->
     </section>
 </form>
-<!-- Section: Design Block -->
