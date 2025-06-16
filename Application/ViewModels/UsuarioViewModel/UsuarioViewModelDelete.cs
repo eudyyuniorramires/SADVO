@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Application.ViewModels.UsuarioViewModel
 {
-    public class UsuarioViewModel
+    public class UsuarioViewModelDelete
     {
-        public required int Id { get; set; } 
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         public required string Nombre { get; set; }
@@ -21,20 +21,13 @@ namespace SADVO.Core.Application.ViewModels.UsuarioViewModel
         [DataType(DataType.EmailAddress)]
         public required string Email { get; set; }
 
-        [Compare(nameof(RepeatContrasena), ErrorMessage = "Las contraseñas no coinciden")] 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         [DataType(DataType.Password)]
         public required string Contrasena { get; set; }
 
-
-        [Required(ErrorMessage = "La confirmación de contraseña es obligatoria")]
-        public required string RepeatContrasena { get; set; }
-
         public bool EstaActivo { get; set; }
 
-        [Required(ErrorMessage ="Ingrese un Rol")]
+        [Required(ErrorMessage = "El rol es obligatorio ")]
         public required string Rol { get; set; } // Enum: Administrador, Dirigente
-
-
     }
 }

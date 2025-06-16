@@ -17,8 +17,6 @@ namespace SADVO.Core.Application.Dtos.Usuario
 
         public required string ContrasenaHash { get; set; }
 
-        public required string ConfirmanPassword { get; set; }
-
         public required string Rol { get; set; } // Ejemplo: "Admin", "User"
 
         public bool EstaActivo { get; set; } = true;

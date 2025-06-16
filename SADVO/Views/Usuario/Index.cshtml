@@ -1,5 +1,6 @@
 ﻿@using SADVO.Core.Application.ViewModels.UsuarioViewModel;
-@model List<UsuarioViewModel>;
+@using SADVO.Core.Domain.Entities
+@model List<UsuarioViewModel>
 @{
     ViewData["Title"] = "Usuario";
 }
@@ -13,7 +14,7 @@
 </div>
 
 <div class="row">
-    <a class="btn btn-outline-success" asp-controller="Usuario" asp-action="Create"><i class="bi bi-file-earmark-plus"></i> Nuevo Partido +</a>
+    <a class="btn btn-outline-success" asp-controller="Usuario" asp-action="Create"><i class="bi bi-file-earmark-plus"></i> Nuevo Usuario +</a>
 </div>
 
 <div class="row mt-2">
@@ -61,3 +62,4 @@
             </div>
         }
     }
+</div>

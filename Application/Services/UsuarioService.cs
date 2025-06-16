@@ -23,29 +23,43 @@ namespace SADVO.Core.Application.Services
         }
         public async Task<bool> AddAsync(GuardarUsuarioDto dto)
         {
-
-            try 
+            try
             {
+                if (string.IsNullOrWhiteSpace(dto.Rol) ||
+                    !Enum.TryParse<RolUsuario>(dto.Rol, ignoreCase: true, out var rolEnum))
+                {
+                    dto.ErrorMessage = $"El rol '{dto.Rol}' no es válido.";
+                    return false;
+                }
 
-                Usuario entity = new() { Id = 0, Nombre = dto.Nombre, Apellido = dto.Apellido, Email = dto.Email, ContrasenaHash = dto.ContrasenaHash };
+                Usuario entity = new()
+                {
+                    Id = 0,
+                    Nombre = dto.Nombre,
+                    Apellido = dto.Apellido,
+                    Email = dto.Email,
+                    ContrasenaHash = dto.ContrasenaHash,
+                    EstaActivo = dto.EstaActivo,
+                    Rol = rolEnum
+                };
+
                 Usuario? returnEntity = await _userRepository.AddAsync(entity);
 
-                if(returnEntity == null)
+                if (returnEntity == null)
                 {
                     dto.ErrorMessage = "Error al agregar el usuario. Por favor, inténtelo de nuevo.";
                     return false;
                 }
 
                 return true;
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 dto.ErrorMessage = $"Error al agregar el usuario: {ex.Message}";
                 return false;
-
             }
         }
+
 
         public async Task<bool> DeleteAsync(int id)
         {
@@ -78,7 +92,8 @@ namespace SADVO.Core.Application.Services
                     Apellido = s.Apellido,
                     Email = s.Email,
                     ContrasenaHash = s.ContrasenaHash,
-                    EstaActivo = s.EstaActivo
+                    EstaActivo = s.EstaActivo,
+                    Rol = s.Rol.ToString()
                 }).ToList();
 
                 return listaEntitiesDto;
@@ -132,14 +147,24 @@ namespace SADVO.Core.Application.Services
         {
             try 
             {
-                Usuario entity = new Usuario()
+
+                if (string.IsNullOrWhiteSpace(dto.Rol) ||
+                   !Enum.TryParse<RolUsuario>(dto.Rol, ignoreCase: true, out var rolEnum))
+                {
+                    dto.ErrorMessage = $"El rol '{dto.Rol}' no es válido.";
+                    return false;
+                }
+                Usuario entity = new()    
                 {
                     Id = dto.Id,
                     Nombre = dto.Nombre,
                     Apellido = dto.Apellido,
                     Email = dto.Email,
                     ContrasenaHash = dto.ContrasenaHash,
-                    EstaActivo = dto.EstaActivo
+                    EstaActivo = dto.EstaActivo,
+                    Rol = rolEnum
+
+
                 };
 
                 Usuario? returnEntiry = await _userRepository.UpdateAsync(dto.Id,entity);

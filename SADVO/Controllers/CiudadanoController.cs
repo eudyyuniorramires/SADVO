@@ -42,7 +42,7 @@ namespace SADVO.Controllers
         public IActionResult Create()
         {
 
-            return View("Save", new CiudadanoSaveViewModel() { Id = 0, Nombre = "", Apellido = "", Email = "", DocumentoIdentidad = "", EstaActivo = false });
+            return View("Save", new CiudadanoSaveViewModel() { Id = 0, Nombre = "", Apellido = "", Email = "", DocumentoIdentidad = "", EstaActivo = false  });
 
         }
 

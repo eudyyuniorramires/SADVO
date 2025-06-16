@@ -15,6 +15,6 @@ namespace SADVO.Core.Application.Dtos.Usuario
         public required string ContrasenaHash { get; set; }
         public bool EstaActivo { get; set; }
 
-        public int Rol { get; set; } 
+        public string Rol { get; set; } 
     }
 }
