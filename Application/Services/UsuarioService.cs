@@ -28,6 +28,7 @@ namespace SADVO.Core.Application.Services
 
 
 
+
             Usuario? usuario = await _userRepository.LoginAsync(dto.UserName, dto.Password);
             if (usuario == null) 
             {
@@ -44,8 +45,9 @@ namespace SADVO.Core.Application.Services
                 Id = usuario.Id,
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
-                EstaActivo = usuario.EstaActivo
-                
+                EstaActivo = usuario.EstaActivo,
+                Rol = usuario.Rol.ToString()
+
             };
 
             return Usuariodto;
@@ -71,7 +73,7 @@ namespace SADVO.Core.Application.Services
                     Email = dto.Email,
                     ContrasenaHash = PasswordEncryptation.ComputeSha25Hash(dto.ContrasenaHash),
                     EstaActivo = dto.EstaActivo,
-                    Rol = rolEnum
+                    Rol = (RolUsuario)Enum.Parse(typeof(RolUsuario), dto.Rol)
                 };
 
                 Usuario? returnEntity = await _userRepository.AddAsync(entity);

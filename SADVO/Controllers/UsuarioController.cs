@@ -2,23 +2,24 @@
 using SADVO.Core.Application.Dtos.Usuario;
 using SADVO.Core.Application.Interfaces;
 using SADVO.Core.Application.ViewModels.UsuarioViewModel;
-using SADVO.Core.Domain.Entities;
 
 namespace SADVO.Controllers
 {
     public class UsuarioController : Controller
     {
-
         private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioSession _usuarioSession;
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public UsuarioController(IUsuarioService usuarioService, IUsuarioSession usuarioSession)
         {
             _usuarioService = usuarioService;
+            _usuarioSession = usuarioSession;
         }
-
 
         public async Task<IActionResult> Index()
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
 
             var dtos = await _usuarioService.GetAll();
 
@@ -31,13 +32,17 @@ namespace SADVO.Controllers
                 Contrasena = x.ContrasenaHash,
                 RepeatContrasena = x.ContrasenaHash,
                 EstaActivo = x.EstaActivo,
-                Rol = x.Rol,
+                Rol = x.Rol
             }).ToList();
+
             return View(listaEntitiesVMS);
         }
 
         public IActionResult Create()
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
             return View("Save", new UsuarioSaveViewModel()
             {
                 Id = 0,
@@ -52,15 +57,14 @@ namespace SADVO.Controllers
             });
         }
 
-
         [HttpPost]
-
         public async Task<IActionResult> Create(UsuarioSaveViewModel vm)
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
             if (!ModelState.IsValid)
-            {
                 return View("Save", vm);
-            }
 
             GuardarUsuarioDto dto = new()
             {
@@ -78,21 +82,18 @@ namespace SADVO.Controllers
             return RedirectToRoute(new { controller = "Usuario", action = "Index" });
         }
 
-
-
         public async Task<IActionResult> Delete(int Id)
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
             if (!ModelState.IsValid)
-            {
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-            }
 
             var dto = await _usuarioService.GetById(Id);
 
             if (dto == null)
-            {
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-            }
 
             UsuarioViewModelDelete vm = new()
             {
@@ -111,29 +112,29 @@ namespace SADVO.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmacion(int id)
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
             if (!ModelState.IsValid)
-            {
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-            }
 
             await _usuarioService.DeleteAsync(id);
             return RedirectToRoute(new { controller = "Usuario", action = "Index" });
         }
 
-
         public async Task<IActionResult> Edit(int id)
         {
-            if(!ModelState.IsValid)
-            {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
+            if (!ModelState.IsValid)
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-            }
 
             ViewBag.EditMode = true;
+
             var dto = await _usuarioService.GetById(id);
             if (dto == null)
-            {
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-            }
 
             UsuarioSaveViewModel vm = new()
             {
@@ -152,9 +153,11 @@ namespace SADVO.Controllers
         }
 
         [HttpPost]
-       
         public async Task<IActionResult> Edit(UsuarioSaveViewModel vm)
         {
+            if (!_usuarioSession.HasUser())
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+
             if (!ModelState.IsValid)
             {
                 ViewBag.EditMode = true;
@@ -175,13 +178,6 @@ namespace SADVO.Controllers
 
             await _usuarioService.UpdateAsync(dto);
             return RedirectToRoute(new { controller = "Usuario", action = "Index" });
-
-
-
         }
     }
-
 }
-
-
-        

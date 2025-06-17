@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SADVO.Core.Application;
+using SADVO.Core.Application.Interfaces;
 using SADVO.Infrastructure.Persistence;
 using SADVO.Infrastructure.Persistence.Context;
+using SADVO.Middlewares;
 
 namespace SADVO
 {
@@ -15,6 +17,13 @@ namespace SADVO
             builder.Services.AddControllersWithViews();
             builder.Services.AddPersistenceLayerIOC(builder.Configuration);
             builder.Services.AddAplicationLayerIOC();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<IUsuarioSession, UsuarioSession>();
+            builder.Services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(1); 
+                opt.Cookie.HttpOnly = true; 
+            });
 
             var app = builder.Build();
 
@@ -30,6 +39,7 @@ namespace SADVO
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 
