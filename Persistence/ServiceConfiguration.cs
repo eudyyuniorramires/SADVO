@@ -30,6 +30,7 @@ namespace SADVO.Infrastructure.Persistence
             service.AddTransient<ICiudadanoRepository, CiudadanoRepository>();
             service.AddTransient<IPartidoPoliticoRepository, PartidoPoliticoRepository>();
             service.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            service.AddTransient<IAsignacionDirigentePoliticoRepository, AsignacionDirigentePoliticoRepository>();
 
             #endregion
 

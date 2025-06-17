@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using SADVO.Core.Application.ViewModels.DirigentePoliticoViewModel
+@model DirigentePoliticoSaveViewModel
+
 @{
+    bool editMode = ViewBag.EditMode ?? false;
+    ViewData["Title"] = editMode ? "Editar Dirigente Político" : "Agregar Dirigente Político";
 }
+
+<div class="col-12 col-md-6 offset-md-3">
+    <div class="card">
+        <div class="card-header bg-primary text-light">
+            <h5 class="text-center">@ViewData["Title"]</h5>
+        </div>
+        <div class="card-body">
+            <form asp-controller="DirigentePolitico" asp-action="@(editMode ? "Edit" : "Create")" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label asp-for="UsuarioId" class="form-label">Dirigente (Usuario):</label>
+                    <select asp-for="UsuarioId" asp-items="ViewBag.Usuarios" class="form-select">
+                        <option disabled selected>Seleccione un dirigente</option>
+                    </select>
+                    <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PartidoPoliticoId" class="form-label">Partido Político:</label>
+                    <select asp-for="PartidoPoliticoId" asp-items="ViewBag.Partidos" class="form-select">
+                        <option disabled selected>Seleccione un partido</option>
+                    </select>
+                    <span asp-validation-for="PartidoPoliticoId" class="text-danger"></span>
+                </div>
+
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-outline-primary float-end"><i class="bi bi-floppy2"></i> Guardar</button>
+                    <a asp-controller="DirigentePolitico" asp-action="Index" class="btn btn-outline-warning float-end me-2"><i class="bi bi-arrow-left-short"></i> Regresar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

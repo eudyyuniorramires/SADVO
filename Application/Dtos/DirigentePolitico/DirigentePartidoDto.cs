@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SADVO.Core.Application.Dtos.PartidoPolitico;
+using SADVO.Core.Application.Dtos.Usuario;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +12,10 @@ namespace SADVO.Core.Application.Dtos.DirigentePolitico
     {
         public int Id { get; set; }
 
-        public required int UsuarioId { get; set; }
+        public int UsuarioId { get; set; }
+        public UsuarioDto? Usuario { get; set; }  // Para nombre y apellido
 
-        public required int PartidoPoliticoId { get; set; }
+        public int PartidoPoliticoId { get; set; }
+        public PartidoPoliticoDto? PartidoPolitico { get; set; }  // Para el nombre
     }
 }

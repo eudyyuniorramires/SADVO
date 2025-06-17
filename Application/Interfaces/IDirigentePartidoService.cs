@@ -16,5 +16,12 @@ namespace SADVO.Core.Application.Interfaces
         Task<List<DirigentePartidoDto>> GetAll();
         Task<List<DirigentePartidoDto>> GetAllWithInclude();
         Task<DirigentePartidoDto?> GetById(int id);
+        Task<bool> ExistsByUsuarioId(int usuarioId);
+
+
+
+
+
+
     }
 }

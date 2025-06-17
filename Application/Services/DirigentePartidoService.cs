@@ -1,5 +1,7 @@
-﻿using SADVO.Core.Application.Dtos.DirigentePolitico;
+﻿using Microsoft.EntityFrameworkCore;
+using SADVO.Core.Application.Dtos.DirigentePolitico;
 using SADVO.Core.Application.Dtos.PartidoPolitico;
+using SADVO.Core.Application.Dtos.Usuario;
 using SADVO.Core.Application.Interfaces;
 using SADVO.Core.Domain.Entities;
 using SADVO.Core.Domain.Interfaces;
@@ -17,17 +19,30 @@ namespace SADVO.Core.Application.Services
 
         private readonly IAsignacionDirigentePoliticoRepository _asignacionDirigentePoliticoRepository; 
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IUsuarioService _usuarioService;
+        private readonly IPartidoPoliticoService _partidoSevice;
         private readonly IPartidoPoliticoRepository _partidoRepository;
 
 
         public DirigentePartidoService(
           IAsignacionDirigentePoliticoRepository asignacionDirigentePoliticoRepository,
           IUsuarioRepository usuarioRepository,
-          IPartidoPoliticoRepository partidoRepository)
+          IPartidoPoliticoRepository partidoRepository,
+          IUsuarioService usuarioService,
+            IPartidoPoliticoService partidoPoliticoService)
         {
             _asignacionDirigentePoliticoRepository = asignacionDirigentePoliticoRepository;
             _usuarioRepository = usuarioRepository;
             _partidoRepository = partidoRepository;
+            _usuarioService = usuarioService;
+            _partidoSevice = partidoPoliticoService;
+        }
+
+        private async Task CargarCombos()
+        {
+            var usuarios = await _usuarioService.GetAll(); // solo dirigentes activos
+            var partidos = await _partidoSevice.GetAll(); // solo partidos activos
+
         }
 
         public async Task<bool> AddAsync(DirigentePartidoDto dto)
@@ -41,8 +56,9 @@ namespace SADVO.Core.Application.Services
                 if (usuario == null || !usuario.EstaActivo)
                     throw new Exception("El dirigente seleccionado no existe o no está activo.");
 
-                if (usuario.Rol != RolUsuario.Dirigente) // Usa un enum o constante definida para verificar
+                if (usuario.Rol != RolUsuario.Dirigente)
                     throw new Exception("El usuario seleccionado no tiene el rol de dirigente político.");
+
 
                 var yaAsignado = await _asignacionDirigentePoliticoRepository.ExistsByUsuarioId(dto.UsuarioId);
                 if (yaAsignado)
@@ -85,38 +101,35 @@ namespace SADVO.Core.Application.Services
             }
         }
 
+        
+
         public async Task<List<DirigentePartidoDto>> GetAll()
         {
+            var relaciones = await _asignacionDirigentePoliticoRepository.GetAllWithIncludesAsync();
 
-
-            try
+            return relaciones.Select(x => new DirigentePartidoDto
             {
-
-                var listaEntities = await _asignacionDirigentePoliticoRepository.GetAllList();
-
-                var listaEntitiesDto = listaEntities.Select(s => new DirigentePartidoDto()
+                Id = x.Id,
+                UsuarioId = x.UsuarioId,
+                PartidoPoliticoId = x.PartidoPoliticoId,
+                Usuario = x.Usuario != null ? new UsuarioDto
                 {
-                    Id = s.Id,
-                    UsuarioId = s.UsuarioId,
-                    PartidoPoliticoId = s.PartidoPoliticoId
-                }).ToList();
+                    Id = x.Id,
+                    Nombre = x.Usuario.Nombre,
+                    Apellido = x.Usuario.Apellido,
+                } : null,
+                PartidoPolitico = x.PartidoPolitico != null ? new PartidoPoliticoDto
+                {
+                    Id = x.PartidoPolitico.Id,
+                    Siglas = x.PartidoPolitico.Siglas,
+                    Nombre = x.PartidoPolitico.Nombre
+                    
 
-                return listaEntitiesDto;
-            }
-            catch (Exception) 
-            {
-
-                return [] ;
-            
-            }
-            
+                } : null
+            }).ToList();
 
         }
 
-        public Task<List<DirigentePartidoDto>> GetAllWithInclude()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<DirigentePartidoDto?> GetById(int id)
         {
@@ -155,7 +168,7 @@ namespace SADVO.Core.Application.Services
                 {
 
                     return false;
-
+                    
                 }
 
                 return true;
@@ -164,6 +177,16 @@ namespace SADVO.Core.Application.Services
             {
                 throw new Exception("Error al actualizar el Dirigente Partido con ID: " + dto.Id);
             }
+        }
+
+        public async Task<bool> ExistsByUsuarioId(int usuarioId)
+        {
+            return await _asignacionDirigentePoliticoRepository.ExistsByUsuarioId(usuarioId);
+        }
+
+        public Task<List<DirigentePartidoDto>> GetAllWithInclude()
+        {
+            throw new NotImplementedException();
         }
     }
 }

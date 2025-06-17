@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SADVO.Infrastructure.Persistence.Repositories
 {
-    public class AsignacionDirigentePolitico : GenericRepository<DirigentePartido>, IAsignacionDirigentePoliticoRepository
+    public class AsignacionDirigentePoliticoRepository : GenericRepository<DirigentePartido>, IAsignacionDirigentePoliticoRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public AsignacionDirigentePolitico(ApplicationDbContext context) : base(context)
+        public AsignacionDirigentePoliticoRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
@@ -23,6 +23,15 @@ namespace SADVO.Infrastructure.Persistence.Repositories
         {
             return await _context.DirigentePartidos.AnyAsync(x => x.UsuarioId == usuarioId);
         }
+
+        public async Task<List<DirigentePartido>> GetAllWithIncludesAsync()
+        {
+            return await GetAllListWithInclude(new List<string> { "Usuario", "PartidoPolitico"});
+        }
+
+
+
+
     }
 
 }

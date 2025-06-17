@@ -9,10 +9,10 @@ namespace SADVO.Core.Application.Dtos.Ciudadano
     public class CiudadanoDto
     {
         public int Id { get; set; }
-        public required string Nombre { get; set; }
-        public required string Apellido { get; set; }
-        public required string Email { get; set; }
-        public required string DocumentoIdentidad { get; set; }
+        public  string Nombre { get; set; }
+        public  string Apellido { get; set; }
+        public  string Email { get; set; }
+        public  string DocumentoIdentidad { get; set; }
         public bool EstaActivo { get; set; } 
     }
 }

@@ -1,1 +1,60 @@
-﻿<h1>Asignacion Dirigente Politico</h1>
+﻿@using SADVO.Core.Application.ViewModels.DirigentePoliticoViewModel;
+@model List<DirigentePoliticoViewModel>
+
+@{
+    ViewData["Title"] = "Dirigente Político";
+}
+
+<div class="row">
+    <div class="col text-center">
+        <h1 class="display-4">Registros de Dirigente Político</h1>
+    </div>
+</div>
+
+<div class="row mt-3">
+        <a class="btn btn-outline-success" asp-controller="DirigentePolitico" asp-action="Create">
+            <i class="bi bi-file-earmark-plus"></i> Nuevo Dirigente +
+        </a>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        @if (Model.Count == 0)
+        {
+            <div class="text-center">
+                <h4 class="display-4">No hay partido político</h4>
+            </div>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Dirigente</th>
+                        <th>Siglas</th>
+                        <th>Partido Político</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        var item = Model[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@item.NombreUsuario</td>
+                            <td>@item.Siglas</td>
+                            <td>@item.NombrePartido</td>
+                            <td>
+                                <a class="btn btn-outline-danger" asp-controller="DirigentePolitico" asp-action="Delete" asp-route-id="@item.Id">
+                                    <i class="bi bi-trash"></i> Desvincular
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

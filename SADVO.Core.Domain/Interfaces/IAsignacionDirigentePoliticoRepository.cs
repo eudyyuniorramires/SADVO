@@ -12,5 +12,8 @@ namespace SADVO.Core.Domain.Interfaces
 
         Task<bool> ExistsByUsuarioId(int usuarioId);
 
+        Task<List<DirigentePartido>> GetAllWithIncludesAsync();
+
+
     }
 }
