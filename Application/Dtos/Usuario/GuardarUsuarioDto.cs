@@ -12,6 +12,7 @@ namespace SADVO.Core.Application.Dtos.Usuario
         public required string Nombre { get; set; }
 
         public required string Apellido { get; set; }
+        public required string UserName { get; set; }
 
         public required string Email { get; set; }
 

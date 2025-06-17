@@ -1,4 +1,5 @@
 ﻿using SADVO.Core.Application.Dtos.Usuario;
+using SADVO.Core.Application.Helpers;
 using SADVO.Core.Application.Interfaces;
 using SADVO.Core.Domain.Entities;
 using SADVO.Core.Domain.Interfaces;
@@ -21,6 +22,35 @@ namespace SADVO.Core.Application.Services
         {
             _userRepository = userRepository;
         }
+
+        public async Task<UsuarioDto> LoginAsync(LoginDto dto) 
+        {
+
+
+
+            Usuario? usuario = await _userRepository.LoginAsync(dto.UserName, dto.Password);
+            if (usuario == null) 
+            {
+
+                return null;
+            
+            }
+
+            UsuarioDto Usuariodto = new()
+            {
+
+                Email = usuario.Email,
+                ContrasenaHash = usuario.ContrasenaHash,
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                EstaActivo = usuario.EstaActivo
+                
+            };
+
+            return Usuariodto;
+        
+        }
         public async Task<bool> AddAsync(GuardarUsuarioDto dto)
         {
             try
@@ -37,8 +67,9 @@ namespace SADVO.Core.Application.Services
                     Id = 0,
                     Nombre = dto.Nombre,
                     Apellido = dto.Apellido,
+                    UserName = dto.UserName,
                     Email = dto.Email,
-                    ContrasenaHash = dto.ContrasenaHash,
+                    ContrasenaHash = PasswordEncryptation.ComputeSha25Hash(dto.ContrasenaHash),
                     EstaActivo = dto.EstaActivo,
                     Rol = rolEnum
                 };
@@ -91,7 +122,7 @@ namespace SADVO.Core.Application.Services
                     Nombre = s.Nombre,
                     Apellido = s.Apellido,
                     Email = s.Email,
-                    ContrasenaHash = s.ContrasenaHash,
+                    ContrasenaHash = PasswordEncryptation.ComputeSha25Hash(s.ContrasenaHash),
                     EstaActivo = s.EstaActivo,
                     Rol = s.Rol.ToString()
                 }).ToList();
@@ -129,6 +160,7 @@ namespace SADVO.Core.Application.Services
                     Id = entity.Id,
                     Nombre = entity.Nombre,
                     Apellido = entity.Apellido,
+                    
                     Email = entity.Email,
                     ContrasenaHash = entity.ContrasenaHash,
                     EstaActivo = entity.EstaActivo
@@ -147,6 +179,14 @@ namespace SADVO.Core.Application.Services
         {
             try 
             {
+                var entityDb = await _userRepository.GetById(dto.Id);
+
+                if (entityDb == null)
+                {
+
+                    return false;
+                    
+                }
 
                 if (string.IsNullOrWhiteSpace(dto.Rol) ||
                    !Enum.TryParse<RolUsuario>(dto.Rol, ignoreCase: true, out var rolEnum))
@@ -159,8 +199,9 @@ namespace SADVO.Core.Application.Services
                     Id = dto.Id,
                     Nombre = dto.Nombre,
                     Apellido = dto.Apellido,
+                    UserName = dto.UserName,
                     Email = dto.Email,
-                    ContrasenaHash = dto.ContrasenaHash,
+                    ContrasenaHash = string.IsNullOrEmpty(dto.ContrasenaHash)? entityDb.ContrasenaHash : PasswordEncryptation.ComputeSha25Hash(dto.ContrasenaHash),
                     EstaActivo = dto.EstaActivo,
                     Rol = rolEnum
 

@@ -12,6 +12,7 @@ namespace SADVO.Core.Domain.Entities
         public required string Nombre { get; set; }
         public required string Apellido { get; set; }
         public  required string Email { get; set; }
+        public string? UserName { get; set; }
         public  required string ContrasenaHash { get; set; }
         public bool EstaActivo { get; set; }
 

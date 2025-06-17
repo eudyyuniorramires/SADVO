@@ -15,5 +15,7 @@ namespace SADVO.Core.Application.Interfaces
         Task<List<UsuarioDto>> GetAll();
         Task<List<UsuarioDto>> GetAllWithInclude();
         Task<UsuarioDto?> GetById(int id);
+
+        Task<UsuarioDto?> LoginAsync(LoginDto dto);
     }
 }

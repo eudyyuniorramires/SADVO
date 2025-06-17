@@ -10,7 +10,7 @@ namespace SADVO.Core.Application.ViewModels.LoginViewModel
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Ingrese el correo electrónico")]
-        public required string Email { get; set; }
+        public required string UserName { get; set; }
 
 
         [Required(ErrorMessage ="Ingrese la contraseña")]

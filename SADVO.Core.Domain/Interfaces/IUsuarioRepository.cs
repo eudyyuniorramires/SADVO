@@ -9,5 +9,6 @@ namespace SADVO.Core.Domain.Interfaces
 {
     public interface IUsuarioRepository : IGenericRepository<Usuario>
     {
+        Task<Usuario?> LoginAsync(string UserName, string contrasena);
     }
 }

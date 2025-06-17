@@ -79,7 +79,7 @@ namespace SADVO.Core.Application.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al agregar la relación dirigente-partido: " + ex.Message);
+                return false;
             }
         }
 

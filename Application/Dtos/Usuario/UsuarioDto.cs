@@ -12,6 +12,8 @@ namespace SADVO.Core.Application.Dtos.Usuario
         public  string Nombre { get; set; }
         public  string Apellido { get; set; }
         public  string Email { get; set; }
+
+        public string? UserName { get; set; }   
         public  string ContrasenaHash { get; set; }
         public bool EstaActivo { get; set; }
 
