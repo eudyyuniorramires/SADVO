@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Domain.Interfaces
 {
-    public interface IPartidoPoliticoRepository :IGenericRepository<PartidoPolitico>
+    public interface IPartidoPoliticoRepository : IGenericRepository<PartidoPolitico>
     {
-
+        Task<bool> ExistsAsync(int partidoPoliticoId);
     }
 }

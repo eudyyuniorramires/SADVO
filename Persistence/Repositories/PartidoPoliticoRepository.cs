@@ -14,10 +14,8 @@ namespace SADVO.Infrastructure.Persistence.Repositories
     {
         public PartidoPoliticoRepository(ApplicationDbContext context) : base(context) { }
 
-       
-    
-
-     
-
-    
-}   }
+        public Task<bool> ExistsAsync(int partidoPoliticoId)
+        {
+            throw new NotImplementedException();
+        }
+    }   }

@@ -8,15 +8,15 @@ namespace SADVO.Core.Domain.Entities
 {
     public class AlianzaPolitica
     {
-        public required int Id { get; set; }
+        public  int Id { get; set; }
 
-        public required int PartidoSolicitanteId { get; set; }
-        public required PartidoPolitico PartidoSolicitante { get; set; }
+        public  int PartidoSolicitanteId { get; set; }
+        public  PartidoPolitico PartidoSolicitante { get; set; }
 
-        public required int PartidoReceptorId { get; set; }
-        public required PartidoPolitico PartidoReceptor { get; set; }
+        public  int PartidoReceptorId { get; set; }
+        public  PartidoPolitico PartidoReceptor { get; set; }
 
-        public required EstadoAlianza Estado { get; set; } // Enum: EnEspera, Aceptada, Rechazada
+        public  EstadoAlianza Estado { get; set; } // Enum: EnEspera, Aceptada, Rechazada
         public DateTime FechaSolicitud { get; set; }
         public DateTime? FechaResolucion { get; set; }
     }

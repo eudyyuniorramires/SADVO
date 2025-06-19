@@ -25,7 +25,10 @@ namespace SADVO.Core.Application
             service.AddTransient<IPartidoPoliticoService, PartidoPoliticoService>();
             service.AddTransient<IUsuarioService, UsuarioService>();
             service.AddTransient<IDirigentePartidoService, DirigentePartidoService>();
-            service.AddTransient<ICandidatosService, CandidatoService>();    
+            service.AddTransient<ICandidatosService, CandidatoService>();
+            service.AddScoped<IAlianzaPoliticaService, AlianzaPoliticaService>();
+            service.AddScoped<IEleccionesService, EleccionServiceFalsa>();
+
             //service.AddTransient<IEleccionesService, EleccionesService>();
             #endregion
 

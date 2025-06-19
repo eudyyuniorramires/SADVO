@@ -1,0 +1,87 @@
+﻿@using SADVO.Core.Application.ViewModels.AlianzaModel;
+@using SADVO.Core.Domain.Entities
+
+@model AlianzaListadoViewModel
+@{
+    ViewData["Title"] = "Alianza";
+    Layout = "_Layout_Dirigente";
+
+}
+
+<h2>Solicitudes Recibidas</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Partido Solicitante</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SolicitudesRecibidas)
+        {
+            <tr>
+                <td>@item.PartidoSolicitanteNombre (@item.PartidoSolicitanteSiglas)</td>
+                <td>@item.FechaSolicitud.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Aceptar" asp-route-id="@item.Id">Aceptar</a> |
+                    <a asp-action="Rechazar" asp-route-id="@item.Id">Rechazar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h2>Solicitudes Enviadas</h2>
+<a asp-action="Crear">Nueva Solicitud</a>
+<table>
+    <thead>
+        <tr>
+            <th>Partido Destino</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SolicitudesEnviadas)
+        {
+            <tr>
+                <td>@item.PartidoReceptorNombre (@item.PartidoReceptorSiglas)</td>
+                <td>@item.FechaSolicitud.ToShortDateString()</td>
+                <td>@item.Estado</td>
+                <td>
+                    @if (item.Estado == EstadoAlianza.EnEspera)
+                    {
+                        <a asp-action="Eliminar" asp-route-id="@item.Id">Eliminar</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h2>Alianzas Vigentes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Partido Aliado</th>
+            <th>Fecha de Aceptación</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AlianzasVigentes)
+        {
+            var aliado = item.PartidoSolicitanteId == ViewBag.PartidoActual
+            ? item.PartidoReceptorNombre + " (" + item.PartidoReceptorSiglas + ")"
+            : item.PartidoSolicitanteNombre + " (" + item.PartidoSolicitanteSiglas + ")";
+
+            <tr>
+                <td>@aliado</td>
+                <td>@item.FechaResolucion?.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

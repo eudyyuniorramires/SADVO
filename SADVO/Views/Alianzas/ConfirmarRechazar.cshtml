@@ -1,0 +1,11 @@
+﻿@using SADVO.Core.Application.Dtos.Alianza;
+
+@model AlianzaDto
+
+<h3>¿Está seguro que desea rechazar la alianza con el partido @Model.PartidoSolicitanteNombre (@Model.PartidoSolicitanteSiglas)?</h3>
+
+<form asp-action="ConfirmarRechazar" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Rechazar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>

@@ -158,10 +158,10 @@ namespace SADVO.Core.Application.Services
                 return true;
 
             } 
-            catch (Exception) 
+            catch (Exception ex) 
             { 
             
-            throw new Exception ("Error al actualizar el candidato");
+            throw new Exception ("Error al actualizar el candidato", ex);
             }
         }
 
