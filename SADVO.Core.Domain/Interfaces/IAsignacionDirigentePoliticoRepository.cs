@@ -15,5 +15,8 @@ namespace SADVO.Core.Domain.Interfaces
         Task<List<DirigentePartido>> GetAllWithIncludesAsync();
 
 
+        Task<DirigentePartido?> GetByUsuarioIdAsync(int usuarioId);
+
+
     }
 }

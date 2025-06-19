@@ -15,6 +15,11 @@ namespace SADVO.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
+        public async Task<bool> ExisteAsignacionParaUsuario(int id)
+        {
+            return await _context.DirigentePartidos.AnyAsync(a => a.UsuarioId == id);
+
+        }
 
         public async Task<Usuario> LoginAsync(string UserName, string contrasena) 
         {

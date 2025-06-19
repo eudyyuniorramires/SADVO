@@ -147,6 +147,7 @@ namespace SADVO.Core.Application.Services
                     Id = entity.Id,
                     UsuarioId = entity.UsuarioId,
                     PartidoPoliticoId = entity.PartidoPoliticoId
+                    
 
                 };
             }
@@ -184,9 +185,29 @@ namespace SADVO.Core.Application.Services
             return await _asignacionDirigentePoliticoRepository.ExistsByUsuarioId(usuarioId);
         }
 
+
+
+
         public Task<List<DirigentePartidoDto>> GetAllWithInclude()
         {
             throw new NotImplementedException();
         }
+
+        public async Task<DirigentePartidoDto?> GetByUsuarioIdAsync(int usuarioId)
+        {
+            var entity = await _asignacionDirigentePoliticoRepository.GetByUsuarioIdAsync(usuarioId);
+
+            if (entity == null || entity.PartidoPolitico == null)
+                return null;
+
+            return new DirigentePartidoDto
+            {
+                UsuarioId = entity.UsuarioId,
+                PartidoPoliticoId = entity.PartidoPoliticoId,
+                NombrePartido = entity.PartidoPolitico.Nombre // ← aquí accedemos al nombre
+            };
+        }
+
+
     }
 }

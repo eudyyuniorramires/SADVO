@@ -27,7 +27,17 @@ namespace SADVO.Infrastructure.Persistence.Repositories
         public async Task<List<DirigentePartido>> GetAllWithIncludesAsync()
         {
             return await GetAllListWithInclude(new List<string> { "Usuario", "PartidoPolitico"});
+
+
         }
+
+        public async Task<DirigentePartido?> GetByUsuarioIdAsync(int usuarioId)
+        {
+            return await _context.DirigentePartidos
+                .Include(dp => dp.PartidoPolitico) // ← incluir el Partido
+                .FirstOrDefaultAsync(dp => dp.UsuarioId == usuarioId);
+        }
+
 
 
 

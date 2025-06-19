@@ -1,5 +1,6 @@
 ﻿using SADVO.Core.Application.Dtos.Ciudadano;
 using SADVO.Core.Application.Dtos.DirigentePolitico;
+using SADVO.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace SADVO.Core.Application.Interfaces
         Task<List<DirigentePartidoDto>> GetAllWithInclude();
         Task<DirigentePartidoDto?> GetById(int id);
         Task<bool> ExistsByUsuarioId(int usuarioId);
+        Task<DirigentePartidoDto?> GetByUsuarioIdAsync(int usuarioId);
 
 
 

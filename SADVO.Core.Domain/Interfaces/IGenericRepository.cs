@@ -21,6 +21,8 @@ namespace SADVO.Core.Domain.Interfaces
 
         Task<Entity?> GetByConditionalAsync(Expression<Func<Entity,bool>>predicate);
 
+        
+
 
     }
 }

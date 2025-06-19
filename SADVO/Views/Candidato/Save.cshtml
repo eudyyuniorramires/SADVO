@@ -1,0 +1,49 @@
+﻿@using SADVO.Core.Application.ViewModels.CandidatoViewModel;
+@model CandidatoSaveViewModel;
+@{
+    bool editeMode = ViewBag.EditMode ?? false;
+    ViewData["Title"] = "Save";
+    Layout = "_Layout_Dirigente";
+
+}
+
+<div class="col-12 col-md-6 offset-md-3 ">
+    <div class="card">
+        <div class="card-header bg-success text-light"><h5 class="text-center">@(editeMode ? "Edit - " + Model.Nombre : "Agregar Puesto Electivo + ")</h5></div>
+        <div class="card-body">
+            <form asp-controller="Candidato" asp-action="@(editeMode ? "Edit" : "Create")" method="POST">
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label asp-for="Nombre" class="form-label">Nombre:</label>
+                    <input class="form-control" asp-for="Nombre" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Apellido" class="form-label">Apellido:</label>
+                    <input type="text" class="form-control" asp-for="Apellido">
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FotoPath" class="form-label">Foto:</label>
+                    <input type="text" class="form-control" asp-for="FotoPath">
+                    <span asp-validation-for="FotoPath" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3">
+                    <div class="row">
+                        <input asp-for="EstaActivo" class="form-check-input" type="checkbox" />
+                        <label asp-for="EstaActivo" class="form-check-input">Activo</label>
+                        <span asp-validation-for="EstaActivo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-outline-primary float-end"><i class="bi bi-floppy2"></i> Guardar</button>
+                    <a asp-controller="Candidato" asp-action="Index" class="btn btn-outline-warning float-end me-2"><i class="bi bi-arrow-left-short"></i> Regresar</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

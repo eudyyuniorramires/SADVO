@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SADVO.Core.Domain.Entities
+namespace SADVO.Core.Application.ViewModels.CandidatoViewModel
 {
-    public class Candidato
+    public class CandidatoViewModel
     {
         public required int Id { get; set; }
         public required string Nombre { get; set; }
@@ -14,9 +14,8 @@ namespace SADVO.Core.Domain.Entities
         public required string FotoPath { get; set; }
         public bool EstaActivo { get; set; }
 
-        public  int PartidoPoliticoId { get; set; }
-        public  PartidoPolitico PartidoPolitico { get; set; }
+        public int PartidoPoliticoId { get; set; }
 
-        public ICollection<CandidatoPuesto> CandidatoPuestos { get; set; }
+        public  required string NombrePartido { get; set; } 
     }
 }

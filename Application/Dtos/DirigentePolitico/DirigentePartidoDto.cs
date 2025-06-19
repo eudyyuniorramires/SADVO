@@ -17,5 +17,8 @@ namespace SADVO.Core.Application.Dtos.DirigentePolitico
 
         public int PartidoPoliticoId { get; set; }
         public PartidoPoliticoDto? PartidoPolitico { get; set; }  // Para el nombre
+
+        public string NombrePartido { get; set; }
+
     }
 }

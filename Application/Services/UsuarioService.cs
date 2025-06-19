@@ -23,23 +23,26 @@ namespace SADVO.Core.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UsuarioDto> LoginAsync(LoginDto dto) 
+        public async Task<UsuarioDto> LoginAsync(LoginDto dto)
         {
-
-
-
-
             Usuario? usuario = await _userRepository.LoginAsync(dto.UserName, dto.Password);
-            if (usuario == null) 
-            {
 
+            if (usuario == null)
                 return null;
-            
+
+            // Verifica si es dirigente
+            if (usuario.Rol == RolUsuario.Dirigente)
+            {
+                bool tienePartido = await _userRepository.ExisteAsignacionParaUsuario(usuario.Id);
+
+                if (!tienePartido)
+                {
+                    return null;
+                }
             }
 
-            UsuarioDto Usuariodto = new()
+            UsuarioDto usuarioDto = new()
             {
-
                 Email = usuario.Email,
                 ContrasenaHash = usuario.ContrasenaHash,
                 Id = usuario.Id,
@@ -47,12 +50,11 @@ namespace SADVO.Core.Application.Services
                 Apellido = usuario.Apellido,
                 EstaActivo = usuario.EstaActivo,
                 Rol = usuario.Rol.ToString()
-
             };
 
-            return Usuariodto;
-        
+            return usuarioDto;
         }
+
         public async Task<bool> AddAsync(GuardarUsuarioDto dto)
         {
             try

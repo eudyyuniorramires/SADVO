@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace SADVO.Core.Domain.Interfaces
 {
-    public interface IUsuarioRepository : IGenericRepository<Usuario>
+    public interface ICandidatoRepository : IGenericRepository<Candidato>
     {
-        Task<bool> ExisteAsignacionParaUsuario(int id);
-        Task<Usuario?> LoginAsync(string UserName, string contrasena);
+
+        Task<List<Candidato>> GetAllWithInclude();
+
+
+
+
+
     }
 }

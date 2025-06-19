@@ -109,7 +109,7 @@ namespace SADVO.Controllers
         {
             if (!_usuarioSession.HasUser())
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
-
+            
             var result = await _ciudadanoService.DeleteAsync(id);
 
             if (!result)
