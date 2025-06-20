@@ -1,4 +1,5 @@
-﻿using SADVO.Core.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SADVO.Core.Domain.Entities;
 using SADVO.Core.Domain.Interfaces;
 using SADVO.Infrastructure.Persistence.Context;
 using System;
@@ -12,10 +13,21 @@ namespace SADVO.Infrastructure.Persistence.Repositories
 {
     public class PartidoPoliticoRepository : GenericRepository<PartidoPolitico>, IPartidoPoliticoRepository
     {
-        public PartidoPoliticoRepository(ApplicationDbContext context) : base(context) { }
+        private readonly ApplicationDbContext _context;
 
-        public Task<bool> ExistsAsync(int partidoPoliticoId)
+        public PartidoPoliticoRepository(ApplicationDbContext context) : base(context) 
         {
-            throw new NotImplementedException();
+
+            _context = context;
+
+
+        }
+
+     
+        public async Task<List<PartidoPolitico>> GetActivosAsync()
+        {
+            return await _context.PartidoPoliticos
+                .Where(p => p.EstaActivo)
+                .ToListAsync();
         }
     }   }

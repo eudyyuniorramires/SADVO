@@ -17,7 +17,14 @@ public class AlianzasController : Controller
     public async Task<IActionResult> Index()
     {
         var user = _usuarioSession.GetUserSession();
-        int partidoId = user.PartidoPoliticoId;
+
+        if (!user.PartidoPoliticoId.HasValue)
+        {
+            TempData["Error"] = "Tu usuario no está asociado a un partido político.";
+            return RedirectToAction("Index");
+        }
+
+        int partidoId = user.PartidoPoliticoId.Value;
 
         var recibidas = await _alianzaService.GetSolicitudesRecibidasAsync(partidoId);
         var enviadas = await _alianzaService.GetSolicitudesEnviadasAsync(partidoId);
@@ -25,13 +32,14 @@ public class AlianzasController : Controller
 
         var model = new AlianzaListadoViewModel
         {
-            SolicitudesRecibidas = recibidas,
             SolicitudesEnviadas = enviadas,
+            SolicitudesRecibidas = recibidas,
             AlianzasVigentes = vigentes
         };
 
         return View(model);
     }
+
 
     public async Task<IActionResult> Aceptar(int id)
     {
@@ -72,16 +80,27 @@ public class AlianzasController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Crear()
+    public async Task<IActionResult> Crear()
+{
+    var user = _usuarioSession.GetUserSession();
+    int partidoActualId = (int)user.PartidoPoliticoId.Value;
+
+    var partidos = await _alianzaService.GetPartidosDisponiblesParaAlianzaAsync(partidoActualId);
+
+    var model = new CrearAlianzaViewModel
     {
-        return View(); // Mostrar formulario (a implementar)
-    }
+        PartidosDisponibles = partidos
+    };
+
+    return View(model);
+}
+
 
     [HttpPost]
     public async Task<IActionResult> CrearSolicitud(int receptorId)
     {
         var user = _usuarioSession.GetUserSession();
-        int solicitanteId = user.PartidoPoliticoId;
+        int solicitanteId = (int)user.PartidoPoliticoId.Value;
 
         await _alianzaService.CrearSolicitudAsync(solicitanteId, receptorId);
         return RedirectToAction("Index");

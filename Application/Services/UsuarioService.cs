@@ -30,6 +30,10 @@ namespace SADVO.Core.Application.Services
             if (usuario == null)
                 return null;
 
+            int? partidoId = null;
+
+
+
             // Verifica si es dirigente
             if (usuario.Rol == RolUsuario.Dirigente)
             {
@@ -49,7 +53,8 @@ namespace SADVO.Core.Application.Services
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 EstaActivo = usuario.EstaActivo,
-                Rol = usuario.Rol.ToString()
+                Rol = usuario.Rol.ToString(),
+                PartidoPoliticoId = usuario.PartidoPoliticoId
             };
 
             return usuarioDto;

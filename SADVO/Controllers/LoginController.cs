@@ -77,7 +77,7 @@ namespace SADVO.Controllers
 
             if (usuarioDto != null)
             {
-                UsuarioViewModel Usuariovm = new() { Email = usuarioDto.Email, Contrasena = usuarioDto.ContrasenaHash, Id = usuarioDto.Id ,Nombre = usuarioDto.Nombre,Apellido = usuarioDto.Apellido,RepeatContrasena = usuarioDto.ContrasenaHash ,EstaActivo = usuarioDto.EstaActivo,Rol = usuarioDto.Rol};
+                UsuarioViewModel Usuariovm = new() { Email = usuarioDto.Email, Contrasena = usuarioDto.ContrasenaHash, Id = usuarioDto.Id ,Nombre = usuarioDto.Nombre,Apellido = usuarioDto.Apellido,RepeatContrasena = usuarioDto.ContrasenaHash ,EstaActivo = usuarioDto.EstaActivo,Rol = usuarioDto.Rol,PartidoPoliticoId = usuarioDto.PartidoPoliticoId};
                 HttpContext.Session.Set<UsuarioViewModel>("Usuario", Usuariovm); 
 
                 if(Usuariovm.Rol == RolUsuario.Administrador.ToString())

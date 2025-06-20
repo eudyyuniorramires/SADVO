@@ -19,7 +19,6 @@ namespace SADVO.Core.Domain.Entities
         public RolUsuario Rol { get; set; } 
 
         public DirigentePartido ?DirigentePartido { get; set; }
-
-        
+        public int PartidoPoliticoId { get; set; }
     }
 }

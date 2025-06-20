@@ -9,6 +9,7 @@ namespace SADVO.Core.Domain.Interfaces
 {
     public interface IPartidoPoliticoRepository : IGenericRepository<PartidoPolitico>
     {
-        Task<bool> ExistsAsync(int partidoPoliticoId);
+
+        Task<List<PartidoPolitico>> GetActivosAsync();
     }
 }

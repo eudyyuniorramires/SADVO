@@ -34,6 +34,6 @@ namespace SADVO.Core.Application.ViewModels.UsuarioViewModel
 
         [Required(ErrorMessage ="Ingrese un Rol")]
         public required string Rol { get; set; } // Enum: Administrador, Dirigente
-        public int PartidoPoliticoId { get; set; }
+        public int? PartidoPoliticoId { get; set; }
     }
 }

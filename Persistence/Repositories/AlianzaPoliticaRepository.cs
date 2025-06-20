@@ -71,4 +71,39 @@ public class AlianzaPoliticaRepository : IAlianzaPoliticaRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> CrearAlianzaAsync(int solicitanteId, int receptorId)
+    {
+        // Validar existencia de partidos
+        var solicitanteExiste = await _context.PartidoPoliticos.AnyAsync(p => p.Id == solicitanteId);
+        var receptorExiste = await _context.PartidoPoliticos.AnyAsync(p => p.Id == receptorId);
+
+        if (!solicitanteExiste || !receptorExiste)
+            return false;
+
+        // Validar duplicidad de solicitud (opcional, puedes moverla aquí también)
+        var existe = await _context.AlianzaPoliticas
+            .AnyAsync(a =>
+                a.PartidoSolicitanteId == solicitanteId &&
+                a.PartidoReceptorId == receptorId &&
+                a.Estado == EstadoAlianza.EnEspera);
+
+        if (existe)
+            return false;
+
+        // Crear nueva solicitud
+        var nueva = new AlianzaPolitica
+        {
+            PartidoSolicitanteId = solicitanteId,
+            PartidoReceptorId = receptorId,
+            Estado = EstadoAlianza.EnEspera,
+            FechaSolicitud = DateTime.Now
+        };
+
+        _context.AlianzaPoliticas.Add(nueva);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
 }

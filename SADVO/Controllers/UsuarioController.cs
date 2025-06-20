@@ -18,8 +18,6 @@ namespace SADVO.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (!_usuarioSession.HasUser())
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
 
             var dtos = await _usuarioService.GetAll();
 
@@ -40,8 +38,7 @@ namespace SADVO.Controllers
 
         public IActionResult Create()
         {
-            if (!_usuarioSession.HasUser())
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
+           
 
             return View("Save", new UsuarioSaveViewModel()
             {
@@ -60,8 +57,7 @@ namespace SADVO.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UsuarioSaveViewModel vm)
         {
-            if (!_usuarioSession.HasUser())
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            
 
             if (!ModelState.IsValid)
                 return View("Save", vm);
@@ -124,8 +120,6 @@ namespace SADVO.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            if (!_usuarioSession.HasUser())
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
 
             if (!ModelState.IsValid)
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
@@ -155,8 +149,6 @@ namespace SADVO.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UsuarioSaveViewModel vm)
         {
-            if (!_usuarioSession.HasUser())
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
 
             if (!ModelState.IsValid)
             {

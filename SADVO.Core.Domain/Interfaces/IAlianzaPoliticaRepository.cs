@@ -19,6 +19,10 @@ namespace SADVO.Core.Domain.Interfaces
         Task AddAsync(AlianzaPolitica alianza);
         Task DeleteAsync(AlianzaPolitica alianza);
         Task SaveChangesAsync();
+
+        Task<bool> CrearAlianzaAsync(int solicitanteId, int receptorId);
+
+
     }
 
 }

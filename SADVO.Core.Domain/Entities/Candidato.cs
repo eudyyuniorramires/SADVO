@@ -13,6 +13,7 @@ namespace SADVO.Core.Domain.Entities
         public required string Apellido { get; set; }
         public required string FotoPath { get; set; }
         public bool EstaActivo { get; set; }
+  
 
         public  int PartidoPoliticoId { get; set; }
         public  PartidoPolitico PartidoPolitico { get; set; }

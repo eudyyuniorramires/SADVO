@@ -1,4 +1,5 @@
 ﻿using SADVO.Core.Application.Dtos.Alianza;
+using SADVO.Core.Application.Dtos.PartidoPolitico;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace SADVO.Core.Application.Interfaces
         Task<bool> EliminarSolicitudAsync(int id);
         Task<bool> CrearSolicitudAsync(int solicitanteId, int receptorId);
         Task<AlianzaDto?> GetByIdDtoAsync(int id);
+        Task<List<PartidoPoliticoDto>> GetPartidosDisponiblesParaAlianzaAsync(int partidoActualId);
+
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using SADVO.Core.Application.Dtos;
 using SADVO.Core.Application.Dtos.Alianza;
+using SADVO.Core.Application.Dtos.PartidoPolitico;
 using SADVO.Core.Application.Interfaces;
 using SADVO.Core.Domain.Entities;
 using SADVO.Core.Domain.Interfaces;
@@ -9,11 +10,13 @@ public class AlianzaPoliticaService : IAlianzaPoliticaService
 {
     private readonly IAlianzaPoliticaRepository _repository;
     private readonly IEleccionesService _eleccionService;
+    private readonly IPartidoPoliticoRepository _partidoRepository;
 
-    public AlianzaPoliticaService(IAlianzaPoliticaRepository repository, IEleccionesService eleccionService)
+    public AlianzaPoliticaService(IAlianzaPoliticaRepository repository, IEleccionesService eleccionService, IPartidoPoliticoRepository partidoRepository)
     {
         _repository = repository;
         _eleccionService = eleccionService;
+        _partidoRepository = partidoRepository;
     }
 
     public async Task<List<AlianzaDto>> GetSolicitudesRecibidasAsync(int partidoId)
@@ -139,20 +142,50 @@ public class AlianzaPoliticaService : IAlianzaPoliticaService
         if (await _eleccionService.ExisteEleccionActivaAsync())
             return false;
 
-        if (await _repository.ExisteSolicitudActivaEntreAsync(solicitanteId, receptorId))
-            return false;
-
-        var nueva = new AlianzaPolitica
-        {
-            Id = 0, // El ID se generará automáticamente
-            PartidoSolicitanteId = solicitanteId,
-            PartidoReceptorId = receptorId,
-            Estado = EstadoAlianza.EnEspera,
-            FechaSolicitud = DateTime.Now
-        };
-
-        await _repository.AddAsync(nueva);
-        await _repository.SaveChangesAsync();
-        return true;
+        return await _repository.CrearAlianzaAsync(solicitanteId, receptorId);
     }
+
+
+    public async Task<List<PartidoPoliticoDto>> GetPartidosDisponiblesParaAlianzaAsync(int partidoActualId)
+    {
+        var todos = await _partidoRepository.GetActivosAsync();
+
+        var alianzas = await _repository.GetAlianzasAceptadasAsync(partidoActualId);
+        var solicitudes = await _repository.GetSolicitudesEnviadasAsync(partidoActualId);
+        var recibidas = await _repository.GetSolicitudesRecibidasAsync(partidoActualId);
+
+        var noDisponibles = new HashSet<int>();
+
+        // Ya aliados
+        foreach (var a in alianzas)
+        {
+            noDisponibles.Add(a.PartidoSolicitanteId == partidoActualId ? a.PartidoReceptorId : a.PartidoSolicitanteId);
+        }
+
+        // Ya enviadas en espera
+        foreach (var s in solicitudes.Where(s => s.Estado == EstadoAlianza.EnEspera))
+        {
+            noDisponibles.Add(s.PartidoReceptorId);
+        }
+
+        // Ya recibidas en espera
+        foreach (var r in recibidas.Where(r => r.Estado == EstadoAlianza.EnEspera))
+        {
+            noDisponibles.Add(r.PartidoSolicitanteId);
+        }
+
+        // Excluir partidos no disponibles o el propio
+        var disponibles = todos
+            .Where(p => p.Id != partidoActualId && !noDisponibles.Contains(p.Id))
+            .Select(p => new PartidoPoliticoDto
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Siglas = p.Siglas
+            })
+            .ToList();
+
+        return disponibles;
+    }
+
 }
